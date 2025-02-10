@@ -21,6 +21,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { BoxJointComponent } from './box-joint/box-joint.component';
 import { MultiSlotComponent } from './multi-slot/multi-slot.component';
 import { TableComponent } from './table/table.component';
+import { DrillHoleComponent } from './drill-hole/drill-hole.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -48,7 +49,8 @@ import { TableComponent } from './table/table.component';
     SurfacePlannerComponent,
     BoxJointComponent,
     MultiSlotComponent,
-  TableComponent],
+  TableComponent, 
+DrillHoleComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

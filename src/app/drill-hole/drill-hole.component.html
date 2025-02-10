@@ -1,0 +1,15 @@
+<form class="drill-hole-form">
+    <mat-form-field class="full-width">
+        <mat-label>Cutter Width</mat-label>
+        <input matInput placeholder="In mm" type="number" [formControl]="cutterWidthControl"/>
+    </mat-form-field>
+
+
+    <button mat-raised-button (click)="generateCodes()">Generate</button>
+    <br/>
+    <mat-form-field>
+        <mat-label>Generated code: </mat-label>
+        <textarea class="full-width" matInput width="300px" height="300px" cols="150" placeholder="Generated code..." [formControl]="gcodeTextControl"></textarea>
+    </mat-form-field> 
+
+</form>
