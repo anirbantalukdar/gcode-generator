@@ -1,0 +1,47 @@
+<button mat-button [mat-menu-trigger-for]="animals">Animal Index</button>
+<mat-menu #animals="matMenu">
+    <button mat-menu-item [mat-menu-trigger-for]="vertebrates">Vertebrates</button>
+    <button mat-menu-item [mat-menu-trigger-for]="invertebrates">Invertebrates</button>
+</mat-menu>
+
+<mat-menu #invertebrates="matMenu">
+    <button mat-menu-item>Insects</button>
+    <button mat-menu-item>Molluscs</button>
+    <button mat-menu-item>Crustaceans</button>
+    <button mat-menu-item>Corals</button>
+    <button mat-menu-item>Arachnids</button>
+    <button mat-menu-item>Velvet worms</button>
+    <button mat-menu-item>Horsehoe Crabs</button>
+</mat-menu>
+
+<mat-menu #vertebrates="matMenu">
+    <button mat-menu-item [mat-menu-trigger-for]="fish">Fishes</button>
+    <button mat-menu-item [matMenuTriggerFor]="amphibians">Amphibians</button>
+    <button mat-menu-item [matMenuTriggerFor]="reptiles">Reptiles</button>
+    <button mat-menu-item>Birds</button>
+    <button mat-menu-item>Mammals</button>
+</mat-menu>
+
+<mat-menu #fish="matMenu">
+    <btton mat-menu-item>Sonoran desert toad</btton>
+    <btton mat-menu-item>Bala shark</btton>
+    <btton mat-menu-item>Ballan wrasse</btton>
+    <btton mat-menu-item>Bamboo Shark</btton>
+    <btton mat-menu-item>Banded Killifish</btton>
+</mat-menu>
+
+<mat-menu #amphibians="matMenu">
+    <btton mat-menu-item>Sonoran desert toad</btton>
+    <btton mat-menu-item>Bala shark</btton>
+    <btton mat-menu-item>Ballan wrasse</btton>
+    <btton mat-menu-item>Bamboo Shark</btton>
+    <btton mat-menu-item>Banded Killifish</btton>
+</mat-menu>
+
+<mat-menu #reptiles="matMenu">
+    <button mat-menu-item>Banded Gay Gecko</button>
+    <button mat-menu-item>Banded Gila Monster</button>
+    <button mat-menu-item>Black Tree Monitor</button>
+    <button mat-menu-item>Blue Spiny Lizard</button>
+    <button mat-menu-item disabled>Velociraptor</button>
+</mat-menu>

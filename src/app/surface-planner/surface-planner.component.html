@@ -1,0 +1,33 @@
+<form class="generator-form">
+    <mat-form-field class="full-width">
+        <mat-label>Cutter Width: </mat-label>
+        <input matInput placeholder="In mm" type="number" [formControl]="cutterWidthFormControl"/>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>X direction Length: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="100" [formControl]="xDirLengthControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Y direction Length: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="32" [formControl]="yDirLengthControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Major movement Axis</mat-label>
+        <mat-select matNativeControl [formControl]="majorMoveAxisControl">
+            <mat-option value="X" selected>X</mat-option>
+            <mat-option value="Y">Y</mat-option>
+        </mat-select>
+    </mat-form-field>
+        <mat-label>Cut on backward direction: </mat-label>
+        <mat-button-toggle-group [formControl]="cutOnBackControl">
+            <mat-button-toggle value="yes" selected>Yes</mat-button-toggle>
+            <mat-button-toggle value="no">No</mat-button-toggle>
+        </mat-button-toggle-group>
+
+    <button mat-raised-button (click)="generate()">Generate</button>
+<!-- need two more options for x-y axis feed rate (speed)-->
+    <mat-form-field>
+        <mat-label>Generated code: </mat-label>
+        <textarea matInput cols="150" placeholder="Generated code..." [formControl]="gcodeTextControl"></textarea>
+    </mat-form-field>
+</form>
