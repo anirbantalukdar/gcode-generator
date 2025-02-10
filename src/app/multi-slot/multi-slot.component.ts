@@ -24,8 +24,9 @@ export class MultiSlotComponent {
   zDepthControl = new FormControl(12);
   zStepControl = new FormControl(3);
   gcodeTextControl = new FormControl();
-
+  safeZ = 40;
   zPos = 0;
+
   public generateCodes(){
     let xPos : number = this.xPositionControl.value ? this.xPositionControl.value : 0;
     let yPos : number = this.yPositionControl.value ? this.yPositionControl.value : 0;
@@ -36,48 +37,55 @@ export class MultiSlotComponent {
     let zDepth : number = this.zDepthControl.value ? this.zDepthControl.value : 0;
     let zStep : number = this.zStepControl.value ? this.zStepControl.value : 0;
     let stockCount = 8;
-    let stockWidth = -30.15;
+    let stockWidth = -30
+    
+    
+    ;
     this.gcodeTextControl.setValue('');
 
     xPos = 0;
-    yPos = (stockWidth/3 + stockWidth/3 + cutterWidth)*(-1);
-    this.appendText("\nG00 Z40 F100");
-    this.appendText("\nG01 Y" + yPos);
-    this.appendText("\nG00 Z0");
+    let stockDir = stockWidth/Math.abs(stockWidth);
+    let xDir = 1;
+    let slotWidth = stockWidth/3;
+
+    yPos = yPos + (stockWidth - slotWidth)/2 + cutterWidth * stockDir;
+
+    let xPositions = [10];
     for(let i=0; i<stockCount; i++){
-      yPos += stockWidth;
-      this.zPos = 0;
-      this.appendText("\n\n\n");
-      this.appendText("\nG00 Z40");
-      this.appendText("\nG01 Y" + yPos);
-      this.appendText("\nG01 Z0");
-      let yLength = stockWidth > 0 ? stockWidth/3 - cutterWidth : stockWidth/3 + cutterWidth;
-      this.generate(xPos, yPos, 108.3, yLength, -2, 6);
-      this.zPos = 40;
-      this.appendText("\nG01 Z" + this.zPos);
+      for(let j=0; j < xPositions.length; j++){
+        xPos = xPositions[j];
+        this.cutSlot(xPos + xDir * cutterWidth/2, yPos, 83, slotWidth - cutterWidth * stockDir, -2, 1);
+        yPos += stockWidth;
+      }
     }
     this.appendText("\nG00 X0Y0");
     this.appendText("\nG00 Z0");
-    //this.generate(xPos, yPos, xDirLength, yDirLength, zDepth, zStep);
   }
 
-  appendText(text: string){
-    this.gcodeTextControl.setValue(this.gcodeTextControl.value + text);
-  }
-  private generate(xPos: number, yPos: number, xLength: number, yLength: number, zStep: number, zCount: number): void{
-    this.appendText('\n;generating gcode for xPos = ' + xPos + ", yPos=" + yPos + ", xLength=" + xLength + ", yLength" + yLength + ", zStep=" + zStep + ", zCount=" + zCount);
-    this.appendText("\nG01 X" + xPos + " Y" + yPos);
+  private cutSlot(xPos: number, yPos: number, xLength: number, yLength: number, zStep: number, zCount: number): void{
+    //this.appendText('\n;generating gcode for xPos = ' + xPos + ", yPos=" + yPos + ", xLength=" + xLength + ", yLength" + yLength + ", zStep=" + zStep + ", zCount=" + zCount);
+    this.moveTo(xPos, yPos);
 
     let z = this.zPos;
     for(let i=0; i<zCount; i++){
       z = z + zStep;
-      this.appendText("\nG01 Z" + z + " F500");
+      this.appendText("\nG01 Z" + z + " F900");
       this.appendText("\nG01 X" + (xPos + xLength));
       this.appendText("\nG01 Y" + (yPos + yLength));
       this.appendText("\nG01 X" + xPos);
       this.appendText("\nG01 Y" + yPos);
     }
-    this.appendText("\nG01 Z" + this.zPos);
+    this.appendText("\nG00 Z" + this.zPos);
     this.appendText("\n\n")
+  }
+
+  public moveTo(xPos: number, yPos: number){
+    this.appendText("\nG00 Z" + this.safeZ);
+    this.appendText("\nG00 X" + xPos + " Y" + yPos);
+    this.appendText("\nG00 Z" + this.zPos);
+  }
+
+  appendText(text: string){
+    this.gcodeTextControl.setValue(this.gcodeTextControl.value + text);
   }
 }
