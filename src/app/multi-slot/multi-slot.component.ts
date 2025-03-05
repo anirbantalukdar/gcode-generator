@@ -44,7 +44,7 @@ export class DowelSlot {
 export class MultiSlotComponent {
   xPositionControl = new FormControl(0);
   yPositionControl = new FormControl(0);
-  cutterWidthControl = new FormControl(6);
+  cutterWidthControl = new FormControl(5.75);
   xDirLengthControl = new FormControl(0);
   yDirLengthControl = new FormControl(0);
   zDepthControl = new FormControl(12);
@@ -55,26 +55,29 @@ export class MultiSlotComponent {
 
   public generateCodes(){
     // TODO validation checking is a must  here
-    let cutterWidth : number = this.cutterWidthControl.value ? this.cutterWidthControl.value : 6;
+    let cutterWidth : number = this.cutterWidthControl.value ? this.cutterWidthControl.value : 5.75;
     let xDirLength : number = this.xDirLengthControl.value ? this.xDirLengthControl.value : 0;
     let yDirLength : number = this.yDirLengthControl.value ? this.yDirLengthControl.value : 0;
     let zDepth : number = this.zDepthControl.value ? this.zDepthControl.value : 0;
     let zStep : number = this.zStepControl.value ? this.zStepControl.value : 0;
     let stockCount = 2;
-    //let stockWidth = -30;
+
+    let stockWidth = -61/2;
+    let stockLength = 44.1;
+    let slotWidth = -13;
     this.gcodeTextControl.setValue('');
 
     let dowelSlots = new Array<DowelSlot>();
-    
-    let dowelSlot = new DowelSlot(0, -260/8, -12, 25.4*3.5);
-    dowelSlots.push(dowelSlot);
+
+    let dowelSlot = new DowelSlot(0, stockWidth, slotWidth, 25.4*3.5);
     dowelSlot.addDowels([25, 75]);
-
-    dowelSlot = new DowelSlot(25.4*((47.2/2) -1), -260/8, -12, 25.4*2);
-    dowelSlot.addDowel(25);
     dowelSlots.push(dowelSlot);
+    
+    //let dowelSlot = new DowelSlot(25.4*((stockLength/2) -1), stockWidth, slotWidth, 25.4*2);
+    //dowelSlot.addDowel(25);
+    //dowelSlots.push(dowelSlot);
 
-    dowelSlot = new DowelSlot(25.4*(47.2-4.5),-260/8, -12, 25.4*4.5);
+    dowelSlot = new DowelSlot(25.4*(stockLength-4.5), stockWidth, slotWidth, 25.4*4.5);
     dowelSlot.addDowels([40, 90]);
     dowelSlots.push(dowelSlot);
 
@@ -87,7 +90,7 @@ export class MultiSlotComponent {
       let stockDir = dowelSlot.stockWidth/Math.abs(dowelSlot.stockWidth);
       yPos = (dowelSlot.stockWidth - dowelSlot.slotWidth)/2 + cutterWidth * stockDir;
       for(let j=0; j<stockCount; j++){
-        this.cutSlot(dowelSlot.xPosition + xDir * cutterWidth/2, yPos, dowelSlot.slotLength - xDir*cutterWidth, dowelSlot.slotWidth - cutterWidth * stockDir, -5, 3);
+        this.cutSlot(dowelSlot.xPosition + xDir * cutterWidth/2, yPos, dowelSlot.slotLength - xDir*cutterWidth, dowelSlot.slotWidth - cutterWidth * stockDir, -2.8, 5);
         let dowelYPos = yPos + dowelSlot.slotWidth/2 - stockDir*cutterWidth/2;
         for(let k=0; k<dowelSlot.dowels.length; k++){
           let dowelXPos = dowelSlot.xPosition + dowelSlot.dowels[k];

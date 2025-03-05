@@ -22,6 +22,8 @@ import { BoxJointComponent } from './box-joint/box-joint.component';
 import { MultiSlotComponent } from './multi-slot/multi-slot.component';
 import { TableComponent } from './table/table.component';
 import { DrillHoleComponent } from './drill-hole/drill-hole.component';
+import { TestComponent } from './test/test.component';
+import { TenondowellComponent } from "./tenondowell/tenondowell.component";
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -49,8 +51,9 @@ import { DrillHoleComponent } from './drill-hole/drill-hole.component';
     SurfacePlannerComponent,
     BoxJointComponent,
     MultiSlotComponent,
-  TableComponent, 
-DrillHoleComponent],
+    TableComponent,
+    DrillHoleComponent,
+    TestComponent, TenondowellComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
