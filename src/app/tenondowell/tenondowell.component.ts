@@ -12,8 +12,6 @@ interface Stock {
   
   tenonStart: number;
   tenonEnd: number;
-
-  tenonWidth: number;
 }
 @Component({
   selector: 'app-tenondowell',
@@ -42,56 +40,54 @@ export class TenondowellComponent {
   stocks : Stock[] = [
     {  
       position: 0,
-      breadth: 90,
+      breadth: -96,
+      dowels: [-25, -75],
+      tenonStart: -10,
+      tenonEnd: -85
+    },
+    {  
+      position: -144.5,
+      breadth: -125,
+      dowels: [-25, -75],
+      tenonStart: -10,
+      tenonEnd: -100
+    }/*,
+    {  
+      position: -302.5,
+      breadth: -98,
       dowels: [-25, -75],
       tenonStart: -10,
       tenonEnd: -85,
       tenonWidth: 12
     },
     {  
-      position: -150,
-      breadth: 90,
+      position: -460,
+      breadth: -125,
       dowels: [-25, -75],
       tenonStart: -10,
-      tenonEnd: -85,
+      tenonEnd: -100,
       tenonWidth: 12
-    },
-    {  
-      position: -305,
-      breadth: 90,
-      dowels: [-25, -75],
-      tenonStart: -10,
-      tenonEnd: -85,
-      tenonWidth: 12
-    },
-    {  
-      position: -360,
-      breadth: -90,
-      dowels: [-25, -75],
-      tenonStart: -10,
-      tenonEnd: -85,
-      tenonWidth: 12
-    },
+    },*/
   ];
 
   public generateCodes(){
     this.gcodeTextControl.setValue("");
-    let width: number = 36;
-    let cutterWdth : number = 6;
-    //moveTo(width/2, 0);
-    
+    let width: number = 30.1;
+    let cutterWdth : number = 5.75;
+    let tenonWidth: number = 12;
+
     // drill the dowells first.
     for(let i=0; i<this.stocks.length; i++){
       let stock = this.stocks[i];
-      //this.cutSlot(0, stock.position, width, stock.tenonStart-cutterWdth/2, -1, 1);
       for(let j=0; j<stock.dowels.length; j++){
-       // this.drillAt(width/2.0, stock.position + stock.dowels[j], 5, -1, 1);
+        this.drillAt(width/2.0, stock.position + stock.dowels[j], 5, -6, 7);
       }
-      //this.cutSlot(0, stock.position + stock.tenonEnd, width, stock.breadth - stock.tenonEnd, -1, 1);  
-      this.cutSlot(0, stock.position, (width-stock.tenonWidth)/2, -stock.breadth, -1, 1);
-      //this.cutSlot(width/2+stock.tenonWidth/2, stock.position, (width-stock.tenonWidth)/2, -stock.breadth, -1, 1);   
     }
-    this.moveTo(0, 0);
+    let lastStock = this.stocks[this.stocks.length-1];
+    let totalBreadth = lastStock.position + lastStock.breadth;
+    this.cutSlot(0, 0, (width-tenonWidth)/2, totalBreadth + 5, -5.5, 2);
+    this.cutSlot(width/2+tenonWidth/2, 0, (width-tenonWidth)/2, totalBreadth + 5, -6, 2);   
+      this.moveTo(0, 0);
   }
 
   private cutSlot(xPos: number, yPos: number, xLength: number, yLength: number, zStep: number, zCount: number): void{
