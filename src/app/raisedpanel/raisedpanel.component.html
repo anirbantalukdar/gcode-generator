@@ -1,0 +1,39 @@
+<form class="multi-slot-form">
+    <mat-form-field class="full-width">
+        <mat-label>Cutter Width: </mat-label>
+        <input matInput placeholder="In mm" type="number" [formControl]="cutterWidthControl"/>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>X Position: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="0" [formControl]="xPositionControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Y Position: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="0" [formControl]="yPositionControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>X Direction Length: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="100" [formControl]="xDirLengthControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Y Direction Length: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="32" [formControl]="yDirLengthControl">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label>Z Depth Length: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="12" [formControl]="zDepthControl">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label>Z Depth Step: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="3" [formControl]="zStepControl">
+    </mat-form-field>
+
+    <button mat-raised-button (click)="generateCodes()">Generate</button>
+    <br/>
+    <mat-form-field>
+        <mat-label>Generated code: </mat-label>
+        <textarea class="full-width" matInput width="300px" height="300px" cols="150" placeholder="Generated code..." [formControl]="gcodeTextControl"></textarea>
+    </mat-form-field> 
+</form>

@@ -24,6 +24,7 @@ import { TableComponent } from './table/table.component';
 import { DrillHoleComponent } from './drill-hole/drill-hole.component';
 import { TestComponent } from './test/test.component';
 import { TenondowellComponent } from "./tenondowell/tenondowell.component";
+import { CanvasComponent } from "./canvas/canvas.component";
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -53,7 +54,7 @@ import { TenondowellComponent } from "./tenondowell/tenondowell.component";
     MultiSlotComponent,
     TableComponent,
     DrillHoleComponent,
-    TestComponent, TenondowellComponent],
+    TestComponent, TenondowellComponent, CanvasComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
