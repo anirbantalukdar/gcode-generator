@@ -28,6 +28,7 @@ export class CanvasComponent implements AfterViewInit{
   protected canvas: HTMLCanvasElement = null;
 
   @ViewChild('canvasEl') canvasEl: ElementRef;
+  @ViewChild('xInput') xDiv: ElementRef;
 
   /** Canvas 2d context */
   private ctx: CanvasRenderingContext2D;
@@ -79,6 +80,9 @@ export class CanvasComponent implements AfterViewInit{
     e.preventDefault();
     e.stopPropagation();
 
+    this.xDiv.nativeElement.style.left  = (e.clientX + 50) + "px";
+    this.xDiv.nativeElement.style.top  = (e.clientY + 50) + "px";
+    //this.canvas.focus();
     if(!this.dragging){
       return;
     }
