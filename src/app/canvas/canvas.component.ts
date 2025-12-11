@@ -23,7 +23,6 @@ export class CanvasComponent implements AfterViewInit{
   protected s: number = 1;
 
   protected dragStart : Vector = null;
-  protected startDragY : number = 0;
   protected dragging: boolean = false;
   protected canvas: HTMLCanvasElement = null;
 
@@ -110,7 +109,6 @@ export class CanvasComponent implements AfterViewInit{
 
     const offset = this.mouseOffset(e);
     const zoomCenter = this.transform(offset.x, offset.y);
-
     const factor = Math.sign(e.deltaY) > 0 ? 0.9 : 1.1;
 
     this.translate(zoomCenter.x, zoomCenter.y);

@@ -34,7 +34,7 @@ export class TenondowellComponent {
   zDepthControl = new FormControl(12);
   zStepControl = new FormControl(3);
   gcodeTextControl = new FormControl();
-  safeZ = 40;
+  safeZ = 10;
   zPos = 0;
   cutterWidth = 6;
   stocks : Stock[] = [
@@ -70,30 +70,42 @@ export class TenondowellComponent {
 
   public generateCodes(){
     this.gcodeTextControl.setValue("");
-    let width: number = -32.8;
-    let cutterWdth : number = 5.8;
-    let tenonWidth: number = 13;
+    let slotPositions : {x: number, y: number, xLlength: number, zStepDepth: number, zStepCount: number}[] = [
+//      {x:0, y:0, xLlength: -68, zStepDepth:-3, zStepCount:1}, 
+      {x: 0, y: 0, xLlength: -64, zStepDepth:-3, zStepCount:13}, 
+      //{x: -487-483, y: 0, xLlength: -64, zStepDepth:-3, zStepCount:13}, 
+  //    {x: -487-483-483, y: 0, xLlength: -68, zStepDepth:-3, zStepCount:1}
+     ];
 
-    let xDir = width/Math.abs(width);
+//    let width: number = -32.8;
+ //   let cutterWdth : number = 5.8;
+  //  let tenonWidth: number = 13;
+
+    //let xDir = width/Math.abs(width);
     // drill the dowells first.
-    for(let i=0; i<this.stocks.length; i++){
-      let stock = this.stocks[i];
-      for(let j=0; j<stock.dowels.length; j++){
-        this.drillAt(width/2.0 + xDir * cutterWdth/2, stock.position + stock.dowels[j], 5, -3, 12);
+    //for(let i=0; i<this.stocks.length; i++){
+     // let stock = this.stocks[i];
+      //for(let j=0; j<stock.dowels.length; j++){
+        //this.drillAt(width/2.0 + xDir * cutterWdth/2, stock.position + stock.dowels[j], 5, -3, 12);
         //this.drillAt(width/2.0, stock.position + stock.dowels[j], 5, -2, 1);
-      }
-    }
-    let firstStock = this.stocks[0];
-    let lastStock = this.stocks[this.stocks.length-1];
-    let totalBreadth = lastStock.position + lastStock.breadth - firstStock.position;
+      //}
+    //}
+    //let firstStock = this.stocks[0];
+    //let lastStock = this.stocks[this.stocks.length-1];
+    //let totalBreadth = lastStock.position + lastStock.breadth - firstStock.position;
     //this.cutSlot(0, firstStock.position-10, (width-tenonWidth)/2, totalBreadth - 10, -5.5, 2);
     //this.cutSlot(width/2+tenonWidth/2, firstStock.position-10, (width-tenonWidth)/2, totalBreadth - 10, -6, 2);   
 
-    this.cutSlot(width/2+xDir*cutterWdth/2+xDir*tenonWidth/2+xDir*cutterWdth/2, firstStock.position+10, xDir*cutterWdth, totalBreadth - 10, -3.6, 3);
-    this.cutSlot(width/2+xDir*cutterWdth/2-xDir*tenonWidth/2-xDir*cutterWdth/2, firstStock.position+10, -xDir*cutterWdth, totalBreadth - 10, -3.6, 3);   
+    //this.cutSlot(width/2+xDir*cutterWdth/2+xDir*tenonWidth/2+xDir*cutterWdth/2, firstStock.position+10, xDir*cutterWdth, totalBreadth - 10, -3.6, 3);
+    //this.cutSlot(width/2+xDir*cutterWdth/2-xDir*tenonWidth/2-xDir*cutterWdth/2, firstStock.position+10, -xDir*cutterWdth, totalBreadth - 10, -3.6, 3);   
     //this.drillAt(width/2+xDir*cutterWdth/2+xDir*tenonWidth/2+xDir*cutterWdth/2, -40, 2, -1, 1);
     //this.drillAt(width/2+xDir*cutterWdth/2-xDir*tenonWidth/2-xDir*cutterWdth/2, -40, 2, -1, 1);   
 
+    for(let i=0; i<slotPositions.length; i++){
+      let slotPos = slotPositions[i];
+      this.cutSlot(slotPos.x, slotPos.y, slotPos.xLlength, -24, slotPos.zStepDepth, slotPos.zStepCount);
+    }
+    this.appendText("\n\n");
     this.moveTo(0, 0);
   }
 
@@ -107,13 +119,13 @@ export class TenondowellComponent {
     let z = this.zPos;
     for(let i=0; i<zCount; i++){
       z = z + zStep;
-      this.appendText("\nG01 Z" + z + " F900");
+      this.appendText("\nG01 Z" + z + " F500");
 //      this.appendText("\nG01 X" + (xPos + xLength-this.cutterWidth*xDir));
 //      this.appendText("\nG01 Y" + (yPos + yLength-this.cutterWidth*yDir));
-      this.appendText("\nG01 Y" + (yPos + yLength));
       this.appendText("\nG01 X" + (xPos + xLength));
-      this.appendText("\nG01 Y" + yPos);
+      this.appendText("\nG01 Y" + (yPos + yLength));
       this.appendText("\nG01 X" + xPos);
+      this.appendText("\nG01 Y" + yPos);
     }
     this.appendText("\nG00 Z" + this.zPos);
     this.appendText("\n\n")
