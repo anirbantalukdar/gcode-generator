@@ -1,0 +1,42 @@
+<form class="window-planner-form">
+    <mat-form-field class="full-width">
+        <mat-label>Cutter Width: </mat-label>
+        <input matInput placeholder="In mm" type="number" [formControl]="cutterWidthControl"/>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label>X Direction Length: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="100" [formControl]="xDirLengthControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>X Scale: </mat-label>
+        <input matInput placeholder="1.0" type="number" value="1.0" [formControl]="xScaleControl">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label>Y Scale: </mat-label>
+        <input matInput placeholder="1.0" type="number" value="1.0" [formControl]="yScaleControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Y Direction Length: </mat-label>
+        <input matInput placeholder="In mm" type="number" value="32" [formControl]="yDirLengthControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Z Step: </mat-label>
+        <input matInput placeholder="1.0" type="number" value="1.0" [formControl]="zStepPerPassControl">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>No Of Pass: </mat-label>
+        <input matInput placeholder="1" type="number" value="1" [formControl]="passIterationControl">
+    </mat-form-field>
+
+    <button mat-raised-button (click)="generateCodes()">Generate</button>
+
+    <br/>
+    <mat-form-field>
+        <mat-label>Generated Code: </mat-label>
+        <textarea class="full-width" matInput width="300px" height="300px" cols="150" placeholder="Generated Code" [formControl]="gcodeTextControl"></textarea>
+    </mat-form-field>
+
+
+</form>

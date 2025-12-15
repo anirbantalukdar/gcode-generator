@@ -62,7 +62,7 @@ export class MultiSlotComponent {
     let zStep : number = this.zStepControl.value ? this.zStepControl.value : 0;
     let stockCount = 2;
 
-    let stockWidth = 63.3/2;
+    let stockWidth = 63.4/2;
     let slotWidth = 13.5;
     this.gcodeTextControl.setValue('');
 
