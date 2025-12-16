@@ -1,12 +1,121 @@
 import { Component } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatFormField, MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from '@angular/material/input';
+
+class Rect {
+  public constructor(public x0: number, public y0: number, public xLength: number, public yLength: number){
+
+  }
+}
 
 @Component({
   selector: 'app-windowrabbetcut',
   standalone: true,
-  imports: [],
+  imports: [
+    MatFormField,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule, 
+    MatButton
+  ],
   templateUrl: './windowrabbetcut.component.html',
   styleUrl: './windowrabbetcut.component.css'
 })
 export class WindowrabbetcutComponent {
+  cutterWidthControl = new FormControl(75);
+  gcodeTextControl = new FormControl('');
+  xDirLengthControl = new FormControl(1118);
+  xScaleControl = new FormControl(4.0);
+  yScaleControl = new FormControl(1.0);
+  yDirLengthControl = new FormControl(407);
+  passIterationControl = new FormControl(1);
+  zStepPerPassControl = new FormControl(1.0);
 
+  safeZ = 5;
+  zPos = 0;
+
+  public generateCodes(){
+    this.gcodeTextControl.setValue('');
+    let cutterWidth = this.cutterWidthControl.value;
+    let xScale = this.xScaleControl.value;
+    let yScale = this.yScaleControl.value;
+    let xDir = this.xDirLengthControl.value/Math.abs(this.xDirLengthControl.value);
+    let yDir = this.yDirLengthControl.value/Math.abs(this.yDirLengthControl.value);
+    let passIterationCount = this.passIterationControl.value;
+    let zValuePerIteration = this.zStepPerPassControl.value;
+    let xLength = Math.abs(this.xDirLengthControl.value);
+    let yLength = Math.abs(this.yDirLengthControl.value);
+    let curveOffset = 50;
+    let rect1 = new Rect(-12*xDir, -12*yDir, xDir * (xLength + curveOffset+12), 12*yDir);    
+    let rect2 = new Rect(xLength * xDir, -12*yDir, xDir * curveOffset, (yLength + 24) * yDir);
+    let rect3 = new Rect(xDir * (xLength+ curveOffset), yDir*yLength, -xDir*(curveOffset+xLength+12), yDir*12);
+    let rect4 = new Rect(-12*xDir, -12*yDir, 12*xDir, yDir*(24+yLength));
+    //console.log(rect1, rect2, rect3, rect4);
+    console.log(rect1);
+    console.log(rect2);
+    console.log(rect3);
+    console.log(rect4);
+    this.cutRect(rect1.x0, rect1.y0, rect1.xLength, rect1.yLength, cutterWidth);
+    this.cutRect(rect2.x0, rect2.y0, rect2.xLength, rect2.yLength, cutterWidth);
+    this.cutRect(rect3.x0, rect3.y0, rect3.xLength, rect3.yLength, cutterWidth);
+    this.cutRect(rect4.x0, rect4.y0, rect4.xLength, rect4.yLength, cutterWidth);
+    //this.cutRect(0, 0, 100, 30, 10);
+  }
+
+
+  public cutRect(x0: number, y0: number, xLength: number, yLength: number, cutterWidth: number){
+      let xDir = xLength/Math.abs(xLength);
+      let yDir = yLength/Math.abs(yLength);
+      let xLen = Math.abs(xLength);
+      let yLen = Math.abs(yLength);
+  
+      let x0Pos = x0;
+      let y0Pos = y0;
+
+      do {
+        x0Pos += xDir * cutterWidth/2.0;
+        y0Pos += yDir * cutterWidth/2.0;
+        let x1Pos = x0Pos + xDir * (xLen - cutterWidth);
+        let y1Pos = y0Pos + yDir * (yLen - cutterWidth);
+        if(xLen < cutterWidth || yLen < cutterWidth){
+          break;
+        }else if(xLen == cutterWidth || yLen == cutterWidth){
+          this.moveTo(x0Pos, y0Pos);
+          this.cutTo(x1Pos, y1Pos);
+        }else {
+          this.cutRectGCode(x0Pos, y0Pos, x1Pos, y1Pos);
+        }
+        xLen -= cutterWidth;
+        yLen -= cutterWidth;
+
+      }while(xLen > 0 && yLen > 0);
+  }
+
+  protected cutRectGCode(x0: number, y0: number, x1: number, y1: number){
+    this.moveTo(x0, y0);
+    this.cutTo(x1, y0);
+    this.cutTo(x1, y1);
+    this.cutTo(x0, y1);
+    this.cutTo(x0, y0);
+  }
+
+
+
+  public moveTo(xPos: number, yPos: number){
+    this.appendText("\nG00 Z" + this.safeZ);
+    this.appendText("\nG00 X" + xPos + " Y" + yPos);
+    this.appendText("\nG00 Z" + this.zPos);
+  }
+
+  protected cutTo(xPos: number, yPos: number){
+    this.appendText("\nG00 X" + xPos + " Y" + yPos);
+  }
+
+
+  appendText(text: string){
+    this.gcodeTextControl.setValue(this.gcodeTextControl.value + text);
+  }
 }
