@@ -8,6 +8,14 @@ class Rect {
   public constructor(public x0: number, public y0: number, public xLength: number, public yLength: number){
 
   }
+
+  public scaleBy(sx: number, sy: number): Rect{
+    this.x0 *= sx;
+    this.y0 *= sy;
+    this.xLength *= sx;
+    this.yLength *= sy;
+    return this;
+  }
 }
 
 @Component({
@@ -25,12 +33,12 @@ class Rect {
   styleUrl: './windowrabbetcut.component.css'
 })
 export class WindowrabbetcutComponent {
-  cutterWidthControl = new FormControl(75);
+  cutterWidthControl = new FormControl(12);
   gcodeTextControl = new FormControl('');
-  xDirLengthControl = new FormControl(1118);
+  xDirLengthControl = new FormControl(890);
   xScaleControl = new FormControl(4.0);
-  yScaleControl = new FormControl(1.0);
-  yDirLengthControl = new FormControl(407);
+  yScaleControl = new FormControl(2.0);
+  yDirLengthControl = new FormControl(220);
   passIterationControl = new FormControl(1);
   zStepPerPassControl = new FormControl(1.0);
 
@@ -49,24 +57,35 @@ export class WindowrabbetcutComponent {
     let xLength = Math.abs(this.xDirLengthControl.value);
     let yLength = Math.abs(this.yDirLengthControl.value);
     let curveOffset = 50;
-    let rect1 = new Rect(-12*xDir, -12*yDir, xDir * (xLength + curveOffset+12), 12*yDir);    
+    let rect1 = new Rect(-12*xDir, -12*yDir, xDir * (xLength + curveOffset+12), 12*yDir);
     let rect2 = new Rect(xLength * xDir, -12*yDir, xDir * curveOffset, (yLength + 24) * yDir);
     let rect3 = new Rect(xDir * (xLength+ curveOffset), yDir*yLength, -xDir*(curveOffset+xLength+12), yDir*12);
     let rect4 = new Rect(-12*xDir, -12*yDir, 12*xDir, yDir*(24+yLength));
+    //rect1.scaleBy(1/xScale, 1/yScale);
+    //rect2.scaleBy(1/xScale, 1/yScale);
+    //rect3.scaleBy(1/xScale, 1/yScale);
+    //rect4.scaleBy(1/xScale, 1/yScale);
     //console.log(rect1, rect2, rect3, rect4);
     console.log(rect1);
     console.log(rect2);
     console.log(rect3);
     console.log(rect4);
-    this.cutRect(rect1.x0, rect1.y0, rect1.xLength, rect1.yLength, cutterWidth);
-    this.cutRect(rect2.x0, rect2.y0, rect2.xLength, rect2.yLength, cutterWidth);
-    this.cutRect(rect3.x0, rect3.y0, rect3.xLength, rect3.yLength, cutterWidth);
-    this.cutRect(rect4.x0, rect4.y0, rect4.xLength, rect4.yLength, cutterWidth);
-    //this.cutRect(0, 0, 100, 30, 10);
+    let sx = 1/xScale;
+    let sy = 1/yScale;
+    for(let i=0; i<passIterationCount; i++){
+      this.zPos += zValuePerIteration;
+      this.cutRect(rect1.x0, rect1.y0, rect1.xLength, rect1.yLength, cutterWidth, sx, sy);
+      this.cutRect(rect2.x0, rect2.y0, rect2.xLength, rect2.yLength, cutterWidth, sx, sy);
+      this.cutRect(rect3.x0, rect3.y0, rect3.xLength, rect3.yLength, cutterWidth, sx, sy);
+      this.cutRect(rect4.x0, rect4.y0, rect4.xLength, rect4.yLength, cutterWidth, sx, sy);
+    }
+    this.zPos = 0;
+    this.moveTo(0, 0);
+
   }
 
 
-  public cutRect(x0: number, y0: number, xLength: number, yLength: number, cutterWidth: number){
+  public cutRect(x0: number, y0: number, xLength: number, yLength: number, cutterWidth: number, sx: number, sy:number){
       let xDir = xLength/Math.abs(xLength);
       let yDir = yLength/Math.abs(yLength);
       let xLen = Math.abs(xLength);
@@ -83,10 +102,10 @@ export class WindowrabbetcutComponent {
         if(xLen < cutterWidth || yLen < cutterWidth){
           break;
         }else if(xLen == cutterWidth || yLen == cutterWidth){
-          this.moveTo(x0Pos, y0Pos);
-          this.cutTo(x1Pos, y1Pos);
+          this.moveTo(x0Pos*sx, y0Pos*sy);
+          this.cutTo(x1Pos*sx, y1Pos*sy);
         }else {
-          this.cutRectGCode(x0Pos, y0Pos, x1Pos, y1Pos);
+          this.cutRectGCode(x0Pos*sx, y0Pos*sy, x1Pos*sx, y1Pos*sy);
         }
         xLen -= cutterWidth;
         yLen -= cutterWidth;
