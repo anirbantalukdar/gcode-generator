@@ -27,6 +27,7 @@ import { TenondowellComponent } from "./tenondowell/tenondowell.component";
 import { CanvasComponent } from "./canvas/canvas.component";
 import { WindowplannerComponent } from './windowplanner/windowplanner.component';
 import { WindowrabbetcutComponent } from './windowrabbetcut/windowrabbetcut.component';
+import { DrllslotComponent } from './drllslot/drllslot.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -58,7 +59,8 @@ import { WindowrabbetcutComponent } from './windowrabbetcut/windowrabbetcut.comp
     DrillHoleComponent,
     TestComponent, TenondowellComponent, CanvasComponent,
     WindowplannerComponent,
-    WindowrabbetcutComponent
+    WindowrabbetcutComponent,
+    DrllslotComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

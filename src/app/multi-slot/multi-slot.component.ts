@@ -3,13 +3,15 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-
-export class DowelSlot {
+export class Slot {
   xPosition: number;
-  dowels: Array<number>;
-  stockWidth: number;
+  yPosition: number;
   slotWidth: number;
   slotLength: number;
+  slotDepth: number;
+  
+  dowels: Array<number>;
+  stockWidth: number;
 
   public constructor(x: number, stockWidth: number, slotWidth: number, slotLength: number){
     this.xPosition = x;
@@ -19,7 +21,7 @@ export class DowelSlot {
     this.slotLength = slotLength;
   }
 
-  public addDowel(x: number){
+  public addDowel(x: number, radius: number, depth: number, zStep: number, zCount: number){
     this.dowels.push(x);
   }
 
@@ -66,34 +68,34 @@ export class MultiSlotComponent {
     let slotWidth = 13.5;
     this.gcodeTextControl.setValue('');
 
-    let dowelSlots = new Array<DowelSlot>();
+//    let dowelSlots = new Array<DowelSlot>();
 
-    let dowelSlot = new DowelSlot(0, stockWidth, slotWidth, 25.4*3.5);
-    dowelSlot.addDowels([25.4, 75.8]);
+    //let dowelSlot = new DowelSlot(0, stockWidth, slotWidth, 25.4*3.5);
+    //dowelSlot.addDowels([25.4, 75.8]);
 
-    dowelSlots.push(dowelSlot);
+    //dowelSlots.push(dowelSlot);
     
     let yPos = 0;
 
     let yDir = stockWidth/Math.abs(stockWidth);
     let slotOffset = 10;
-    for(let i=0; i < dowelSlots.length; i++){
-      let dowelSlot = dowelSlots[i];
-      for(let j=0; j<stockCount; j++){
-        let dowelYPos = yPos + slotOffset + yDir * slotWidth/2;
-        for(let k=0; k<dowelSlot.dowels.length; k++){
-          let dowelXPos = dowelSlot.xPosition + dowelSlot.dowels[k];
-          console.log('drill at: ', dowelXPos, dowelYPos);
-          this.drillAt(dowelXPos, dowelYPos, 5, -2.9, 13);
-        }
-        let slotYPos = dowelYPos + yDir * cutterWidth/2 - yDir * slotWidth/2
+  //  for(let i=0; i < dowelSlots.length; i++){
+    //  let dowelSlot = dowelSlots[i];
+      //for(let j=0; j<stockCount; j++){
+       // let dowelYPos = yPos + slotOffset + yDir * slotWidth/2;
+        //for(let k=0; k<dowelSlot.dowels.length; k++){
+          //let dowelXPos = dowelSlot.xPosition + dowelSlot.dowels[k];
+          //console.log('drill at: ', dowelXPos, dowelYPos);
+          //this.drillAt(dowelXPos, dowelYPos, 5, -2.9, 13);
+        //}
+        //let slotYPos = dowelYPos + yDir * cutterWidth/2 - yDir * slotWidth/2
         // cut the slot
-        console.log('cutting slot: ', dowelSlot.xPosition, slotYPos, dowelSlot.slotLength, yDir*dowelSlot.slotWidth-yDir*cutterWidth);
-        this.cutSlot(dowelSlot.xPosition, slotYPos, dowelSlot.slotLength, yDir*dowelSlot.slotWidth-yDir*cutterWidth, -3.4, 4);
-        yPos += dowelSlot.stockWidth;
-      }
-    }
-    this.moveTo(0, 0);
+        //console.log('cutting slot: ', dowelSlot.xPosition, slotYPos, dowelSlot.slotLength, yDir*dowelSlot.slotWidth-yDir*cutterWidth);
+        //this.cutSlot(dowelSlot.xPosition, slotYPos, dowelSlot.slotLength, yDir*dowelSlot.slotWidth-yDir*cutterWidth, -3.4, 4);
+        //yPos += dowelSlot.stockWidth;
+      //}
+    //}
+    //this.moveTo(0, 0);
   }
 
   private cutSlot(xPos: number, yPos: number, xLength: number, yLength: number, zStep: number, zCount: number): void{

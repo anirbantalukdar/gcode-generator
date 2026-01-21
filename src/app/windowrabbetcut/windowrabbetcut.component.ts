@@ -61,15 +61,7 @@ export class WindowrabbetcutComponent {
     let rect2 = new Rect(xLength * xDir, -12*yDir, xDir * curveOffset, (yLength + 24) * yDir);
     let rect3 = new Rect(xDir * (xLength+ curveOffset), yDir*yLength, -xDir*(curveOffset+xLength+12), yDir*12);
     let rect4 = new Rect(-12*xDir, yDir*(12+yLength), 12*xDir, -yDir*(24+yLength));
-    //rect1.scaleBy(1/xScale, 1/yScale);
-    //rect2.scaleBy(1/xScale, 1/yScale);
-    //rect3.scaleBy(1/xScale, 1/yScale);
-    //rect4.scaleBy(1/xScale, 1/yScale);
-    //console.log(rect1, rect2, rect3, rect4);
-    console.log(rect1);
-    console.log(rect2);
-    console.log(rect3);
-    console.log(rect4);
+
     let sx = 1/xScale;
     let sy = 1/yScale;
     for(let i=0; i<passIterationCount; i++){
