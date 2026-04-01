@@ -20,7 +20,6 @@ import { SurfacePlannerComponent } from './surface-planner/surface-planner.compo
 import { LayoutComponent } from './layout/layout.component';
 import { BoxJointComponent } from './box-joint/box-joint.component';
 import { MultiSlotComponent } from './multi-slot/multi-slot.component';
-import { TableComponent } from './table/table.component';
 import { DrillHoleComponent } from './drill-hole/drill-hole.component';
 import { TestComponent } from './test/test.component';
 import { TenondowellComponent } from "./tenondowell/tenondowell.component";
@@ -28,6 +27,7 @@ import { CanvasComponent } from "./canvas/canvas.component";
 import { WindowplannerComponent } from './windowplanner/windowplanner.component';
 import { WindowrabbetcutComponent } from './windowrabbetcut/windowrabbetcut.component';
 import { DrllslotComponent } from './drllslot/drllslot.component';
+import { TennonOuterComponent } from "./tennon-outer/tennon-outer.component";
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -55,13 +55,11 @@ import { DrllslotComponent } from './drllslot/drllslot.component';
     SurfacePlannerComponent,
     BoxJointComponent,
     MultiSlotComponent,
-    TableComponent,
     DrillHoleComponent,
     TestComponent, TenondowellComponent, CanvasComponent,
     WindowplannerComponent,
     WindowrabbetcutComponent,
-    DrllslotComponent
-  ],
+    DrllslotComponent, TennonOuterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

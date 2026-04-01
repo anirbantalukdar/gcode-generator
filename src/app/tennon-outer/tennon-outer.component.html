@@ -1,0 +1,40 @@
+<h1>Tennon Drill component</h1>
+<mat-form-field class="full-width">
+        <mat-label>Cutter Width: </mat-label>
+        <input matInput placeholder="In mm" type="number" [formControl]="cutterWidthControl"/>
+</mat-form-field>
+<mat-form-field class="full-width">
+    <mat-label>Stock Width: </mat-label>
+    <input matInput placeholder="In mm" type="number" value="100" [formControl]="stockWidthControl">
+</mat-form-field>
+
+<mat-form-field class="full-width">
+    <mat-label>Stock Breadth: </mat-label>
+    <input matInput placeholder="In mm" type="number" value="100" [formControl]="stockBreadthControl">
+</mat-form-field>
+
+<mat-form-field class="full-width">
+    <mat-label>Tennon Width: </mat-label>
+    <input matInput placeholder="In mm" type="number" value="100" [formControl]="tennonWidthControl">
+</mat-form-field>
+
+<mat-form-field class="full-width">
+    <mat-label>Tennon Breadth: </mat-label>
+    <input matInput placeholder="In mm" type="number" value="100" [formControl]="tennonBreadthControl">
+</mat-form-field>
+<mat-form-field class="full-width">
+    <mat-label>Z Step: </mat-label>
+    <input matInput placeholder="In mm" type="number" value="100" [formControl]="zStepControl">
+</mat-form-field>
+<mat-form-field class="full-width">
+    <mat-label>ZStep Count: </mat-label>
+    <input matInput placeholder="In mm" type="number" value="100" [formControl]="zCountControl">
+</mat-form-field>
+
+<button mat-raised-button (click)="generateCodes()">Generate</button>
+
+<br/>
+<mat-form-field>
+    <mat-label>Generated Code: </mat-label>
+    <textarea class="full-width" matInput width="300px" height="300px" cols="150" placeholder="Generated Code" [formControl]="gcodeTextControl"></textarea>
+</mat-form-field>

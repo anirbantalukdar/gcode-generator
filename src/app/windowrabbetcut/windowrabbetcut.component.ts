@@ -39,8 +39,8 @@ export class WindowrabbetcutComponent {
   xScaleControl = new FormControl(4.0);
   yScaleControl = new FormControl(2.0);
   yDirLengthControl = new FormControl(220);
-  passIterationControl = new FormControl(1);
-  zStepPerPassControl = new FormControl(1.0);
+  passIterationControl = new FormControl(4);
+  zStepPerPassControl = new FormControl(-3.0);
 
   safeZ = 5;
   zPos = 0;

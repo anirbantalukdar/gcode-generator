@@ -170,7 +170,7 @@ export class Application {
     }
     private m_GCodeTextControl : FormControl;
     private m_CutterWidth = 6.0;
-    private m_SafeZ: number = 40.0;
+    private m_SafeZ: number = 5.0;
     private m_ZPos: number = 0.0;
     private m_XPos: number = 0.0;
     private m_YPos: number = 0.0;

@@ -40,18 +40,19 @@ export class DrllslotComponent {
   zStepPerPassControl = new FormControl(1.0);
 
   stockLength = 400;
-  slotWidth = 12;
-  stockWidth = 30;
-  stockCount = 1;
+  slotWidth = 13.8;
+  stockWidth = 30.25;
+  stockCount = 2;
   stockPair = true;
 
-  INCH = 25;
+  INCH = 25.4;
 
-  slotLength: number[] = [3*this.INCH, 4*this.INCH];
-  slotPositions:number[] = [0, this.stockLength - this.slotLength[1]];
+  //slotLength: number[] = [3.5*this.INCH];//, 4*this.INCH];
+  slotLength: number[] = [3.5*this.INCH];//, 4*this.INCH];
+  slotPositions:number[] = [0];//, this.stockLength - this.slotLength[1]];
   yOffsets: number[] = [10, this.stockWidth - 10 - this.slotWidth];
 
-  drillXPos: number[] = [this.INCH, 3*this.INCH, this.stockLength - this.INCH, this.stockLength - 3*this.INCH];
+  drillXPos: number[] = [this.INCH, 3*this.INCH];//, this.stockLength - this.INCH, this.stockLength - 3*this.INCH];
   drillRadius = 5;
 
   public createDrillOffset(): number[]{
@@ -72,7 +73,7 @@ export class DrllslotComponent {
         let xPos = this.slotPositions[j];
         let xLength = this.slotLength[j] * xDir;
         let yLength = this.slotWidth * yDir;
-        slots.push(new Slot(xPos, yPos, xLength, yLength, -1, 1));
+        slots.push(new Slot(xPos, yPos, xLength, yLength, -1.625, 8));
       }
     }
     return slots;
@@ -81,10 +82,11 @@ export class DrllslotComponent {
   public createDrills(){
     let drillYOffset = this.createDrillOffset();
     let app = Application.getInstance();
+    let yDir = 1;
     for(let i=0; i<this.stockCount; i++){
-      let drillYPos = drillYOffset[i%2];
+      let drillYPos = i * this.stockWidth * yDir + drillYOffset[i%2];
       for(let j=0; j<this.drillXPos.length; j++){
-        let dowelCut = new DowelCut(this.drillXPos[j], drillYPos, this.drillRadius, -1, 2);
+        let dowelCut = new DowelCut(this.drillXPos[j], drillYPos, this.drillRadius, -5, 7);
         app.addComment('Creating drills: [' + i + ', ' + j + ']')
         dowelCut.cut();
         
@@ -100,6 +102,7 @@ export class DrllslotComponent {
     for(let i=0; i<slots.length; i++){
       let slot = slots[i];
       app.addComment('Creating slot: ' + i);
+      console.log('Creating slot: ', i, slot);
       let slotCut = new SlotCut(slot.x0, slot.y0, slot.xLength, slot.yLength, slot.zStep, slot.zCount);
       slotCut.cut();
     }
